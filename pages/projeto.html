@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enerlink - Detalhes do Projeto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fb;
+            padding: 2rem;
+        }
+
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Botão voltar */
+        .btn-voltar {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .btn-voltar:hover {
+            text-decoration: underline;
+        }
+
+        /* Card projeto */
+        .projeto-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+        }
+
+        /* Cabeçalho do projeto */
+        .projeto-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            padding: 2rem;
+            color: white;
+        }
+
+        .projeto-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-open {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .status-progress {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .status-closed {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        /* Corpo do projeto */
+        .projeto-body {
+            padding: 2rem;
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #666;
+            min-width: 100px;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .descricao {
+            line-height: 1.6;
+            color: #555;
+            margin-top: 0.5rem;
+        }
+
+        /* Botão de ação */
+        .btn-acao {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-acao:hover {
+            background: #45a049;
+        }
+
+        /* Responsivo */
+        @media (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .projeto-header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Botão voltar -->
+        <a href="dashboard.html" class="btn-voltar">← Voltar para o marketplace</a>
+
+        <!-- Cards -->
+        <div class="projeto-card">
+            <div class="projeto-header">
+                <h1 id="projetoTitulo">Usina Solar TechCorp</h1>
+                <span id="projetoStatus" class="status-badge status-open">📢 Aberto</span>
+            </div>
+
+            <div class="projeto-body">
+                <!-- info basicas -->
+                <div class="info-section">
+                    <h3>📋 Informações do Projeto</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">⚡ Tipo de energia:</span>
+                            <span class="info-value" id="projetoTipo">☀️ Solar</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label"> Empresa:</span>
+                            <span class="info-value" id="projetoEmpresa">TechCorp Solutions</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">📅 Data publicação:</span>
+                            <span class="info-value" id="projetoData">10/03/2026</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Descricao -->
+                <div class="info-section">
+                    <h3>📝 Descrição do Projeto</h3>
+                    <div class="descricao" id="projetoDescricao">
+                        Instalação de painéis solares para fábrica de 5000m², redução prevista de 40% na conta de energia.
+                    </div>
+                </div>
+
+                <!-- Orçamento e local -->
+                <div class="info-section">
+                    <h3> Orçamento e Localização</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">💵 Orçamento estimado:</span>
+                            <span class="info-value" id="projetoOrcamento">R$ 250.000 - R$ 300.000</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">📍 Localização:</span>
+                            <span class="info-value" id="projetoLocal">São Paulo, SP</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">⏱️ Prazo:</span>
+                            <span class="info-value" id="projetoPrazo">6 meses</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- botao de acao -->
+                <button class="btn-acao" id="botaoAcao" onclick="acaoProjeto()">
+                    Enviar Proposta
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // simulando recebimento do ID via URL
+        function getParametroId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // banco de dados dos projetos 
+        const projetos = {
+            1: {
+                nome: "Usina Solar TechCorp",
+                tipo: "☀️ Solar",
+                status: "aberto",
+                empresa: "TechCorp Solutions",
+                data: "10/03/2026",
+                descricao: "Instalação de painéis solares para fábrica de 5000m², redução prevista de 40% na conta de energia. O projeto inclui estudo de viabilidade, instalação completa e manutenção por 2 anos.",
+                orcamento: "R$ 250.000 - R$ 300.000",
+                local: "São Paulo, SP",
+                prazo: "6 meses"
+            },
+            2: {
+                nome: "Eficiência Energética GreenCo",
+                tipo: "💡 Eficiência",
+                status: "andamento",
+                empresa: "GreenCo Energy",
+                data: "05/03/2026",
+                descricao: "Modernização do sistema de iluminação e climatização do escritório central. Substituição de equipamentos antigos por tecnologia LED e ar-condicionado de alta eficiência.",
+                orcamento: "R$ 150.000 - R$ 200.000",
+                local: "Rio de Janeiro, RJ",
+                prazo: "4 meses"
+            },
+            3: {
+                nome: "Projeto Eólico WindPower",
+                tipo: "💨 Eólica",
+                status: "aberto",
+                empresa: "WindPower Brasil",
+                data: "01/03/2024",
+                descricao: "Implantação de 3 turbinas eólicas para abastecimento da planta industrial. Projeto inclui estudo de ventos, licenciamento ambiental e instalação.",
+                orcamento: "R$ 500.000 - R$ 600.000",
+                local: "Fortaleza, CE",
+                prazo: "12 meses"
+            },
+            4: {
+                nome: "Biomassa Sustentável",
+                tipo: "🌿 Biomassa",
+                status: "fechado",
+                empresa: "AgroEnergy",
+                data: "20/02/2026",
+                descricao: "Aproveitamento de resíduos agrícolas para geração de energia térmica. Projeto já concluído com sucesso.",
+                orcamento: "R$ 300.000 - R$ 350.000",
+                local: "Campinas, SP",
+                prazo: "8 meses"
+            },
+            5: {
+                nome: "Hidrogênio Verde",
+                tipo: "💧 Hidrogênio",
+                status: "aberto",
+                empresa: "H2Future",
+                data: "15/03/2026",
+                descricao: "Projeto pioneiro de produção de hidrogênio verde para frota de caminhões. Inclui eletrolisadores e estação de abastecimento.",
+                orcamento: "R$ 1.000.000 - R$ 1.500.000",
+                local: "Belo Horizonte, MG",
+                prazo: "18 meses"
+            }
+        };
+
+        // Função para mostrar o status correto
+        function getTextoStatus(status) {
+            if (status === "aberto") return " Aberto";
+            if (status === "andamento") return " Em andamento";
+            return "Fechado";
+        }
+
+        function getClasseStatus(status) {
+            if (status === "aberto") return "status-open";
+            if (status === "andamento") return "status-progress";
+            return "status-closed";
+        }
+
+        // Função para carregar os dados do projeto
+        function carregarProjeto() {
+            const id = getParametroId();
+            
+            // Se não tem ID ou projeto não existe, mostra erro
+            if (!id || !projetos[id]) {
+                document.querySelector('.projeto-card').innerHTML = `
+                    <div class="projeto-header" style="background: #e74c3c;">
+                        <h1>Projeto não encontrado</h1>
+                    </div>
+                    <div class="projeto-body" style="text-align: center; padding: 3rem;">
+                        <p>⚠️ O projeto que você está procurando não existe.</p>
+                        <a href="dashboard.html" style="color: #4CAF50; margin-top: 1rem; display: inline-block;">Voltar para o marketplace</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const projeto = projetos[id];
+            
+            // Preencher os dados na página
+            document.getElementById('projetoTitulo').textContent = projeto.nome;
+            document.getElementById('projetoStatus').textContent = getTextoStatus(projeto.status);
+            document.getElementById('projetoStatus').className = `status-badge ${getClasseStatus(projeto.status)}`;
+            document.getElementById('projetoTipo').textContent = projeto.tipo;
+            document.getElementById('projetoEmpresa').textContent = projeto.empresa;
+            document.getElementById('projetoData').textContent = projeto.data;
+            document.getElementById('projetoDescricao').textContent = projeto.descricao;
+            document.getElementById('projetoOrcamento').textContent = projeto.orcamento;
+            document.getElementById('projetoLocal').textContent = projeto.local;
+            document.getElementById('projetoPrazo').textContent = projeto.prazo;
+            
+            // Mudar o botão conforme o status
+            const botao = document.getElementById('botaoAcao');
+            if (projeto.status === 'aberto') {
+                botao.textContent = ' Enviar Proposta';
+                botao.style.background = '#4CAF50';
+                botao.disabled = false;
+            } else if (projeto.status === 'andamento') {
+                botao.textContent = '⏳ Projeto em andamento';
+                botao.style.background = '#ff9800';
+                botao.disabled = true;
+            } else {
+                botao.textContent = '✅ Projeto concluído';
+                botao.style.background = '#999';
+                botao.disabled = true;
+            }
+        }
+
+        // Função do botão de ação
+        function acaoProjeto() {
+            const id = getParametroId();
+            const projeto = projetos[id];
+            
+            if (projeto && projeto.status === 'aberto') {
+                alert(`PROPOSTA ENVIADA!\n\n` +
+                      `Projeto: ${projeto.nome}\n` +
+                      `Empresa: ${projeto.empresa}\n\n` +
+                      `Sua proposta foi encaminhada com sucesso!\n` +
+                      `A empresa entrará em contato em até 5 dias úteis.`);
+                
+                // Opcional: redirecionar ou limpar formulário
+                // window.location.href = 'dashboard.html';
+            }
+        }
+
+        // Carregar a página
+        carregarProjeto();
+    </script>
+</body>
+</html>

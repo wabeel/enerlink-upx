@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enerlink - Marketplace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fb;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: 260px;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .logo-area {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .logo-area h2 {
+            color: #4CAF50;
+            font-size: 1.5rem;
+        }
+
+        .logo-area p {
+            color: #666;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 1.5rem 0;
+        }
+
+        .nav-item {
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: #f0f7f0;
+            color: #4CAF50;
+        }
+
+        .nav-item.active {
+            background: #e8f5e8;
+            color: #4CAF50;
+            border-right: 3px solid #4CAF50;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+        }
+
+        .user-info-sidebar {
+            padding: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-details h4 {
+            font-size: 0.9rem;
+        }
+
+        .user-details p {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .main-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .page-title p {
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        .search-bar input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 250px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: #4CAF50;
+            color: white;
+            border-color: #4CAF50;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            padding: 1rem 1.2rem;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .status-open {
+            background: #e8f5e8;
+            color: #4CAF50;
+        }
+
+        .status-progress {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .status-closed {
+            background: #fee;
+            color: #e74c3c;
+        }
+
+        .card-body {
+            padding: 1rem 1.2rem;
+        }
+
+        .energy-type {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .project-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.8rem;
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .btn-details {
+            background: none;
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-details:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .tab-content {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .proposta-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            text-align: left;
+        }
+
+        .perfil-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 500px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            .sidebar .logo-area p,
+            .sidebar .user-details,
+            .sidebar .nav-item span:not(.nav-icon) {
+                display: none;
+            }
+            .sidebar .nav-item {
+                justify-content: center;
+                padding: 0.8rem;
+            }
+            .sidebar .user-info-sidebar {
+                justify-content: center;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- sidebar -->
+    <aside class="sidebar">
+        <div class="logo-area">
+            <h2>Enerlink</h2>
+            <p>Marketplace</p>
+        </div>
+
+        <nav class="nav-menu">
+            <div class="nav-item active" onclick="mostrarProjetos()">
+                <span class="nav-icon"></span>
+                <span>Projetos</span>
+            </div>
+            <div class="nav-item" onclick="mostrarPropostas()">
+                <span class="nav-icon"></span>
+                <span>Propostas</span>
+            </div>
+            <div class="nav-item" onclick="mostrarPerfil()">
+                <span class="nav-icon"></span>
+                <span>Perfil</span>
+            </div>
+        </nav>
+
+        <div class="user-info-sidebar">
+            <div class="user-avatar">AD</div>
+            <div class="user-details">
+                <h4>Admin</h4>
+                <p>admin@enerlink.com</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- main -->
+    <main class="main-content">
+        <div class="main-header">
+            <div class="page-title">
+                <h1> Projetos</h1>
+                <p>Encontre projetos sustentáveis. </p>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Buscar projetos..." onkeyup="buscarProjetos()">
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" onclick="filtrarStatus('todos')">Todos</button>
+            <button class="filter-btn" onclick="filtrarStatus('aberto')">Abertos</button>
+            <button class="filter-btn" onclick="filtrarStatus('andamento')">Em Andamento</button>
+            <button class="filter-btn" onclick="filtrarStatus('fechado')">Fechados</button>
+        </div>
+
+        <!-- ares projeto -->
+        <div id="areaProjetos">
+            <div class="projects-grid" id="listaProjetos"></div>
+        </div>
+
+        <!-- area proposta -->
+        <div id="areaPropostas" style="display: none;">
+            <div class="tab-content">
+                <span style="font-size: 3rem;">📋</span>
+                <h3 style="margin: 1rem 0;">Minhas Propostas</h3>
+                <p style="color: #666;">Aqui você acompanha suas propostas enviadas para os projetos.</p>
+                <div style="margin-top: 2rem;">
+                    <div class="proposta-item">
+                        <strong>Proposta para: Usina Solar</strong>
+                        <span style="float: right; color: #ff9800;">Pendente</span>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 0.3rem;">Enviada em: 15/03/2026</p>
+                    </div>
+                    <div class="proposta-item">
+                        <strong>Proposta para: Eficiência Energética GreenCo</strong>
+                        <span style="float: right; color: #4CAF50;">Aceita</span>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 0.3rem;">Enviada em: 10/03/2026</p>
+                    </div>
+                    <div class="proposta-item">
+                        <strong>Proposta para: Projeto Eólico WindPower</strong>
+                        <span style="float: right; color: #ff9800;">Pendente</span>
+                        <p style="font-size: 0.8rem; color: #666; margin-top: 0.3rem;">Enviada em: 05/03/2026</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- perfil -->
+        <div id="areaPerfil" style="display: none;">
+            <div class="perfil-card">
+                <h3>Meu Perfil</h3>
+                <hr style="margin: 1rem 0;">
+                <p><strong>Nome:</strong> Admin</p>
+                <p><strong>E-mail:</strong> admin@enerlink.com</p>
+                <p><strong>Tipo:</strong> Administrador</p>
+                <p><strong>Empresa:</strong> Enerlink Soluções</p>
+                <hr style="margin: 1rem 0;">
+                <h4>Preferências</h4>
+                <p> Receber notificações de novos projetos</p>
+                <p> Newsletter semanal de oportunidades</p>
+                <p> Alertas de projetos na minha região</p>
+                <button class="btn-details" style="margin-top: 1rem; padding: 0.5rem 1.5rem;" >
+                    Editar Perfil
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // dadss dos projetos
+        const projetos = [
+            {
+                id: 1,
+                nome: "Usina Solar ",
+                tipo: "☀️ Solar",
+                descricao: "Instalação de painéis solares para fábrica de 5000m², redução prevista de 40% na conta de energia.",
+                status: "aberto",
+                data: "10/03/2026",
+                empresa: "TechCorp Solutions"
+            },
+            {
+                id: 2,
+                nome: "Eficiência Energética GreenCo",
+                tipo: "💡 Eficiência",
+                descricao: "Modernização do sistema de iluminação e climatização do escritório central.",
+                status: "andamento",
+                data: "05/03/2026",
+                empresa: "GreenCo Energy"
+            },
+            {
+                id: 3,
+                nome: "Projeto Eólico WindPower",
+                tipo: "💨 Eólica",
+                descricao: "Implantação de 3 turbinas eólicas para abastecimento da planta industrial.",
+                status: "aberto",
+                data: "01/03/2026",
+                empresa: "WindPower Brasil"
+            },
+            {
+                id: 4,
+                nome: "Biomassa Sustentável",
+                tipo: "🌿 Biomassa",
+                descricao: "Aproveitamento de resíduos agrícolas para geração de energia térmica.",
+                status: "fechado",
+                data: "20/02/2026",
+                empresa: "AgroEnergy"
+            },
+            {
+                id: 5,
+                nome: "Hidrogênio Verde",
+                tipo: "💧 Hidrogênio",
+                descricao: "Projeto pioneiro de produção de hidrogênio verde para frota de caminhões.",
+                status: "aberto",
+                data: "15/03/2026",
+                empresa: "H2Future"
+            }
+        ];
+
+        let filtroAtual = "todos";
+        let termoBusca = "";
+
+        // mostrar os cards na tela
+        function mostrarCards() {
+            // Filtrar projetos
+            let projetosFiltrados = projetos.filter(projeto => {
+                // Filtro por status
+                if (filtroAtual !== "todos" && projeto.status !== filtroAtual) {
+                    return false;
+                }
+                // Filtro por busca
+                if (termoBusca !== "") {
+                    return projeto.nome.toLowerCase().includes(termoBusca) ||
+                           projeto.empresa.toLowerCase().includes(termoBusca) ||
+                           projeto.tipo.toLowerCase().includes(termoBusca);
+                }
+                return true;
+            });
+
+            const container = document.getElementById("listaProjetos");
+            
+            if (projetosFiltrados.length === 0) {
+                container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem;">Nenhum projeto encontrado </div>`;
+                return;
+            }
+
+            // Gerar HTML dos cards
+            container.innerHTML = projetosFiltrados.map(projeto => `
+                <div class="project-card">
+                    <div class="card-header">
+                        <span class="project-title">${projeto.nome}</span>
+                        <span class="status-badge ${getClasseStatus(projeto.status)}">${getTextoStatus(projeto.status)}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="energy-type">${projeto.tipo}</div>
+                        <div class="project-description">
+                            ${projeto.descricao}
+                        </div>
+                        <div class="project-meta">
+                            <span>🏢 ${projeto.empresa}</span>
+                            <span>📅 ${projeto.data}</span>
+                        </div>
+                        <div style="margin-top: 1rem; text-align: right;">
+                            <button class="btn-details" onclick="verDetalhes(${projeto.id})">
+                                Ver detalhes 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // cor do status
+        function getClasseStatus(status) {
+            if (status === "aberto") return "status-open";
+            if (status === "andamento") return "status-progress";
+            return "status-closed";
+        }
+
+        //  texto do status
+        function getTextoStatus(status) {
+            if (status === "aberto") return " Aberto";
+            if (status === "andamento") return " Em andamento";
+            return " Fechado";
+        }
+
+        //funcao p/ filtrar por status
+        function filtrarStatus(status) {
+            filtroAtual = status;
+            
+            // Atualizar estilo dos botões
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            mostrarCards();
+        }
+
+        // funcao  p/ buscar projetos
+        function buscarProjetos() {
+            termoBusca = document.getElementById("searchInput").value.toLowerCase();
+            mostrarCards();
+        
+        }
+         function verDetalhes(id) {
+            // Abre a página projeto.html passando o ID na URL
+            window.location.href = `projeto.html?id=${id}`;
+        }
+
+        function filtrarStatus(status) {
+            filtroAtual = status;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            mostrarCards();
+         }
+
+        // funcao de navegacao entre abas
+        function mostrarProjetos() {
+            document.getElementById("areaProjetos").style.display = "block";
+            document.getElementById("areaPropostas").style.display = "none";
+            document.getElementById("areaPerfil").style.display = "none";
+            
+            // atualizar menu ativo
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            mostrarCards();
+        }
+
+        function mostrarPropostas() {
+            document.getElementById("areaProjetos").style.display = "none";
+            document.getElementById("areaPropostas").style.display = "block";
+            document.getElementById("areaPerfil").style.display = "none";
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function mostrarPerfil() {
+            document.getElementById("areaProjetos").style.display = "none";
+            document.getElementById("areaPropostas").style.display = "none";
+            document.getElementById("areaPerfil").style.display = "block";
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        // inicializsr pag
+        mostrarCards();
+    </script>
+</body>
+</html>

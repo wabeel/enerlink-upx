@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enerlink - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #dfece5 0%, #80cab3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* Container principal */
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* header */
+        .login-header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            padding: 2rem;
+            text-align: center;
+            color: white;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+
+        }
+
+        .login-form {
+            padding: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        /* botao Login */
+        .btn-login {
+            width: 100%;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .btn-login:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* links extras */
+        .login-options {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .login-options a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .login-options a:hover {
+            color: #45a049;
+            text-decoration: underline;
+        }
+
+        .register-link {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .register-link p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* msg de erro/sucesso */
+        .message {
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .message.error {
+            background: #fee;
+            color: #c33;
+            border-left: 4px solid #c33;
+            display: block;
+        }
+
+        .message.success {
+            background: #e8f5e8;
+            color: #4CAF50;
+            border-left: 4px solid #4CAF50;
+            display: block;
+        }
+
+        /* Botão voltar */
+        .back-home {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .back-home a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-home a:hover {
+            color: #4CAF50;
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+            }
+
+            .login-header {
+                padding: 1.5rem;
+            }
+
+            .login-form {
+                padding: 1.5rem;
+            }
+
+            .login-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Enerlink</h1>
+            <p>Conectando você à energia sustentável</p>
+        </div>
+
+        <div class="login-form">
+            <!-- mensagem de feedback -->
+            <div id="message" class="message"></div>
+
+            <form id="loginForm" method="POST" action="#">
+                <div class="input-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-login">Entrar</button>
+
+                <div class="login-options">
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <div class="register-link">
+                    
+                </div>
+            </form>
+
+            <div class="back-home">
+                <a href="index.html">← Voltar para home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Proteção contra XSS e validação simples
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageDiv = document.getElementById('message');
+
+             if (!email || !password) {
+                showMessage('Preencha todos os campos', 'error');
+                return;
+            }
+
+            // remove tags HTML
+            const sanitizeEmail = email.replace(/[<>]/g, '');
+            const sanitizePassword = password.replace(/[<>]/g, '');
+            
+            // validação de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            
+            if (!emailRegex.test(sanitizeEmail)) {
+                showMessage('Por favor, insira um e-mail válido', 'error');
+                return;
+            }
+            
+            if (sanitizePassword.length < 6) {
+                showMessage('A senha deve ter pelo menos 6 caracteres', 'error');
+                return;
+            }
+            
+            // validação simple
+            
+            if (sanitizeEmail === 'admin@enerlink.com' && sanitizePassword === 'admin123') {
+                showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                
+                // simula redirecionamento após 1.5 segundos
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1500);
+            } else {
+                showMessage('E-mail ou senha inválidos. Use admin@enerlink.com / admin123 para teste', 'error');
+            }
+        });
+        
+        // Função para mostrar mensagens
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            
+            // esconde a mensagem apos 3s
+            setTimeout(() => {
+                messageDiv.className = 'message';
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+        
+        
+        // Limpa mensagem quando o usuário começa a digitar
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const messageDiv = document.getElementById('message');
+                messageDiv.className = 'message';
+                messageDiv.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
